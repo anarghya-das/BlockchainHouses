@@ -1,3 +1,4 @@
+var bought = false;
 App = {
 	web3Provider: null,
 	contracts: {},
@@ -11,6 +12,7 @@ App = {
 			for (i = 0; i < data.length; i++) {
 				houseTemplate.find('.panel-title').text(data[i].streetname);
 				houseTemplate.find('img').attr('src', data[i].image);
+				houseTemplate.find('.btn-buy').attr('data-id', data[i].id);
 				housesRow.append(houseTemplate.html());
 			}
 		});
@@ -44,14 +46,14 @@ App = {
 	initContract: function() {
 		$.getJSON('Owners.json', function(data) {
 			// Get the necessary contract artifact file and instantiate it with truffle-contract
-			var AdoptionArtifact = data;
-			App.contracts.Owners = TruffleContract(AdoptionArtifact);
+			var OwnerArtifact = data;
+			App.contracts.Owners = TruffleContract(OwnerArtifact);
 
 			// Set the provider for our contract
 			App.contracts.Owners.setProvider(App.web3Provider);
 
 			// Use our contract to retrieve and mark the adopted pets
-			return App.markAdopted();
+			return App.markSold();
 		});
 
 		return App.bindEvents();
@@ -62,22 +64,27 @@ App = {
 		$(document).on('click', '.btn-buy', App.handleBuy);
 	},
 
-	markAdopted: function(adopters, account) {
-		var adoptionInstance;
+	markSold: function(buyers, account) {
+		var ownersInstance;
 
 		App.contracts.Owners
 			.deployed()
 			.then(function(instance) {
-				adoptionInstance = instance;
-
-				return adoptionInstance.getAdopters.call();
+				ownersInstance = instance;
+				return ownersInstance.getBuyers.call();
 			})
-			.then(function(adopters) {
-				for (i = 0; i < adopters.length; i++) {
-					if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
-						$('.panel-pet').eq(i).find('button').text('Sold').attr('disabled', true);
+			.then(function(buyers) {
+				$.getJSON('../data.json', function(data) {
+					var housesRow = $('#housesRow');
+					for (i = 0; i < buyers.length; i++) {
+						if (buyers[i] !== '0x0000000000000000000000000000000000000000') {
+							var c = $('.panel-pet').eq(i).find('button')[1];
+							c.innerText = 'Sold!';
+							c.disabled = true;
+							bought = true;
+						}
 					}
-				}
+				});
 			})
 			.catch(function(err) {
 				console.log(err.message);
@@ -89,8 +96,13 @@ App = {
 		$.getJSON('../data.json', function(data) {
 			var housesRow = $('#housesRow');
 			for (i = 0; i < data.length; i++) {
-				housesRow.find('.current-owner').text('Owner: ' + data[i]['title_dataset'][0].seller);
-				housesRow.find('.prospective-buyer').text('Buyer : ' + data[i]['title_dataset'][0].buyer);
+				if (bought) {
+					housesRow.find('.current-owner').text('Owner: ' + data[i]['title_dataset'][0].buyer);
+					housesRow.find('.prospective-buyer').text('Buyer : None');
+				} else {
+					housesRow.find('.current-owner').text('Owner: ' + data[i]['title_dataset'][0].seller);
+					housesRow.find('.prospective-buyer').text('Buyer : ' + data[i]['title_dataset'][0].buyer);
+				}
 				housesRow.find('.date').text('Date: ' + data[i]['title_dataset'][0].date);
 				housesRow
 					.find('.transcation-type')
@@ -103,10 +115,10 @@ App = {
 
 	handleBuy: function(event) {
 		event.preventDefault();
-		var petId = parseInt($(event.target).data('id'));
-		var adoptionInstance;
-		// var name = prompt('Enter your name');
-		// alert(name + ' you can buy this house!');
+		var c = $(event.target);
+		var cd = c.data('id');
+		var houseId = parseInt(cd);
+		var ownersInstance;
 		web3.eth.getAccounts(function(error, accounts) {
 			if (error) {
 				console.log(error);
@@ -117,13 +129,13 @@ App = {
 			App.contracts.Owners
 				.deployed()
 				.then(function(instance) {
-					adoptionInstance = instance;
+					ownersInstance = instance;
 
-					// Execute adopt as a transaction by sending account
-					return adoptionInstance.adopt(petId, { from: account });
+					// adding house to bought blockchain
+					return ownersInstance.addHouse(houseId, { from: account });
 				})
 				.then(function(result) {
-					return App.markAdopted();
+					return App.markSold();
 				})
 				.catch(function(err) {
 					console.log(err.message);
