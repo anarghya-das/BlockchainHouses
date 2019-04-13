@@ -1,0 +1,41 @@
+[
+	{
+		"id": 0,
+		"street name": "370 Beryman Dr",
+		"image": "src/img",
+		"title_dataset": [
+			{
+				"seller": "Bill Smith",
+				"buyer": "Sally Smith",
+				"date": "June 1881",
+				"transaction_type": "Inheritance",
+				"price": "0"
+			}
+		],
+		"tax_dataset": [
+			{
+				"owner": "Bill Smith",
+				"tax year": "1881",
+				"taxes recieved": "Y",
+				"amount": "50"
+			}
+		],
+		"mortage_dataset": [
+			{
+				"owner": "Sally Smith",
+				"mortage amount": "5000",
+				"current Balance": "0",
+				"status": "Discharged"
+			}
+		],
+		"judgement_dataset": [
+			{
+				"owner": "John Doe",
+				"case number": "239485",
+				"judgement discription": "lost property in card game",
+				"judgement file data": "12/1/1890",
+				"amount": "11242"
+			}
+		]
+	}
+]
