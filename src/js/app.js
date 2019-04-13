@@ -1,4 +1,7 @@
-var bought = false;
+var bought;
+function initBought(size) {
+	bought = new Array(size);
+}
 App = {
 	web3Provider: null,
 	contracts: {},
@@ -8,7 +11,7 @@ App = {
 		$.getJSON('../data.json', function(data) {
 			var housesRow = $('#housesRow');
 			var houseTemplate = $('#houseTemplate');
-
+			initBought(data.length);
 			for (i = 0; i < data.length; i++) {
 				houseTemplate.find('.panel-title').text(data[i].streetname);
 				houseTemplate.find('img').attr('src', data[i].image);
@@ -81,7 +84,7 @@ App = {
 							var c = $('.panel-pet').eq(i).find('button')[1];
 							c.innerText = 'Sold!';
 							c.disabled = true;
-							bought = true;
+							bought[i] = true;
 						}
 					}
 				});
@@ -96,7 +99,7 @@ App = {
 		$.getJSON('../data.json', function(data) {
 			var housesRow = $('#housesRow');
 			for (i = 0; i < data.length; i++) {
-				if (bought) {
+				if (bought[i]) {
 					housesRow.find('.current-owner').text('Owner: ' + data[i]['title_dataset'][0].buyer);
 					housesRow.find('.prospective-buyer').text('Buyer : None');
 				} else {
