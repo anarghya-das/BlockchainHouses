@@ -76,5 +76,122 @@
 				"amount": "11242"
 			}
 		]
+	},
+	{
+		"id": 2,
+		"streetname": "Hadley Dr.",
+		"image": "images/house3.jpg",
+		"title_dataset": [
+			{
+				"seller": "Joe Doe",
+				"buyer": "Lucy Moss",
+				"date": "May 2019",
+				"transaction_type": "Sale",
+				"price": "10000"
+			}
+		],
+		"tax_dataset": [
+			{
+				"owner": "Bill Smith",
+				"tax year": "1881",
+				"taxes recieved": "Y",
+				"amount": "50"
+			}
+		],
+		"mortage_dataset": [
+			{
+				"owner": "Sally Smith",
+				"mortage amount": "5000",
+				"current Balance": "0",
+				"status": "Discharged"
+			}
+		],
+		"judgement_dataset": [
+			{
+				"owner": "John Doe",
+				"case number": "239485",
+				"judgement discription": "lost property in card game",
+				"judgement file data": "12/1/1890",
+				"amount": "11242"
+			}
+		]
+	},
+	{
+		"id": 3,
+		"streetname": "46 Vermont Drive",
+		"image": "images/house4.jpg",
+		"title_dataset": [
+			{
+				"seller": "Pete Moss",
+				"buyer": "Billy Mackeral",
+				"date": "Jan 2018",
+				"transaction_type": "Inheritance",
+				"price": "500"
+			}
+		],
+		"tax_dataset": [
+			{
+				"owner": "Bill Smith",
+				"tax year": "1881",
+				"taxes recieved": "Y",
+				"amount": "50"
+			}
+		],
+		"mortage_dataset": [
+			{
+				"owner": "Sally Smith",
+				"mortage amount": "5000",
+				"current Balance": "0",
+				"status": "Discharged"
+			}
+		],
+		"judgement_dataset": [
+			{
+				"owner": "John Doe",
+				"case number": "239485",
+				"judgement discription": "lost property in card game",
+				"judgement file data": "12/1/1890",
+				"amount": "11242"
+			}
+		]
+	},
+	{
+		"id": 4,
+		"streetname": "Sweet Home Road",
+		"image": "images/house5.jpg",
+		"title_dataset": [
+			{
+				"seller": "David Moss",
+				"buyer": "M&T Bank",
+				"date": "July 1968",
+				"transaction_type": "Foreclosure",
+				"price": "800"
+			}
+		],
+		"tax_dataset": [
+			{
+				"owner": "Bill Smith",
+				"tax year": "1881",
+				"taxes recieved": "Y",
+				"amount": "50"
+			}
+		],
+		"mortage_dataset": [
+			{
+				"owner": "Sally Smith",
+				"mortage amount": "5000",
+				"current Balance": "0",
+				"status": "Discharged"
+			}
+		],
+		"judgement_dataset": [
+			{
+				"owner": "John Doe",
+				"case number": "239485",
+				"judgement discription": "lost property in card game",
+				"judgement file data": "12/1/1890",
+				"amount": "11242"
+			}
+		]
 	}
 ]
