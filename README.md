@@ -2,6 +2,8 @@
 
 A modern way to easily buy property in a matter of seconds!
 
+![picture](https://github.com/anarghya-das/BlockchainHouses/blob/master/screenshots/home.png)
+
 ## Steps to install 
 
 1. Clone the repository.
