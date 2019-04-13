@@ -9,7 +9,7 @@
 				"buyer": "Sally Smith",
 				"date": "June 1881",
 				"transaction_type": "Inheritance",
-				"price": "213"
+				"price": "0"
 			}
 		],
 		"tax_dataset": [
@@ -126,7 +126,7 @@
 				"buyer": "Billy Mackeral",
 				"date": "Jan 2018",
 				"transaction_type": "Inheritance",
-				"price": "500"
+				"price": "0"
 			}
 		],
 		"tax_dataset": [
