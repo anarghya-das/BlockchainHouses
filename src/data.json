@@ -1,8 +1,8 @@
 [
 	{
 		"id": 0,
-		"street name": "370 Beryman Dr",
-		"image": "src/img",
+		"streetname": "370 Beryman Dr",
+		"image": "images/house.jpg",
 		"title_dataset": [
 			{
 				"seller": "Bill Smith",
