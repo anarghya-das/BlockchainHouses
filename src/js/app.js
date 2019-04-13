@@ -3,7 +3,7 @@ App = {
 	contracts: {},
 
 	init: async function() {
-		// Load pets.
+		// Load houses.
 		$.getJSON('../data.json', function(data) {
 			var housesRow = $('#housesRow');
 			var houseTemplate = $('#houseTemplate');
@@ -41,24 +41,79 @@ App = {
 		return App.initContract();
 	},
 
-	initContract: function() {
-		$.getJSON('Adoption.json', function(data) {
-			// Get the necessary contract artifact file and instantiate it with truffle-contract
-			var AdoptionArtifact = data;
-			App.contracts.Adoption = TruffleContract(AdoptionArtifact);
+	// initContract: function() {
+	// 	$.getJSON('Adoption.json', function(data) {
+	// 		// Get the necessary contract artifact file and instantiate it with truffle-contract
+	// 		var AdoptionArtifact = data;
+	// 		App.contracts.Adoption = TruffleContract(AdoptionArtifact);
 
-			// Set the provider for our contract
-			App.contracts.Adoption.setProvider(App.web3Provider);
+	// 		// Set the provider for our contract
+	// 		App.contracts.Adoption.setProvider(App.web3Provider);
 
-			// Use our contract to retrieve and mark the adopted pets
-			return App.markAdopted();
-		});
+	// 		// Use our contract to retrieve and mark the adopted pets
+	// 		return App.markAdopted();
+	// 	});
 
-		return App.bindEvents();
-	},
+	// 	return App.bindEvents();
+	// },
 
 	bindEvents: function() {
-		$(document).on('click', '.btn-adopt', App.handleAdopt);
+		$(document).on('click', '.btn-view', App.handleView);
+		$(document).on('click', '.btn-buy', App.handleBuy);
+	},
+
+	handleView: function(event) {
+		event.preventDefault();
+		alert('View Houses!');
+		// web3.eth.getAccounts(function(error, accounts) {
+		// 	if (error) {
+		// 		console.log(error);
+		// 	}
+
+		// 	var account = accounts[0];
+
+		// 	App.contracts.Adoption
+		// 		.deployed()
+		// 		.then(function(instance) {
+		// 			adoptionInstance = instance;
+
+		// 			// Execute adopt as a transaction by sending account
+		// 			return adoptionInstance.adopt(petId, { from: account });
+		// 		})
+		// 		.then(function(result) {
+		// 			return App.markAdopted();
+		// 		})
+		// 		.catch(function(err) {
+		// 			console.log(err.message);
+		// 		});
+		// });
+	},
+
+	handleBuy: function(event) {
+		event.preventDefault();
+		alert('Buy Houses!');
+		// web3.eth.getAccounts(function(error, accounts) {
+		// 	if (error) {
+		// 		console.log(error);
+		// 	}
+
+		// 	var account = accounts[0];
+
+		// 	App.contracts.Adoption
+		// 		.deployed()
+		// 		.then(function(instance) {
+		// 			adoptionInstance = instance;
+
+		// 			// Execute adopt as a transaction by sending account
+		// 			return adoptionInstance.adopt(petId, { from: account });
+		// 		})
+		// 		.then(function(result) {
+		// 			return App.markAdopted();
+		// 		})
+		// 		.catch(function(err) {
+		// 			console.log(err.message);
+		// 		});
+		// });
 	}
 };
 
