@@ -41,79 +41,94 @@ App = {
 		return App.initContract();
 	},
 
-	// initContract: function() {
-	// 	$.getJSON('Adoption.json', function(data) {
-	// 		// Get the necessary contract artifact file and instantiate it with truffle-contract
-	// 		var AdoptionArtifact = data;
-	// 		App.contracts.Adoption = TruffleContract(AdoptionArtifact);
+	initContract: function() {
+		$.getJSON('Owners.json', function(data) {
+			// Get the necessary contract artifact file and instantiate it with truffle-contract
+			var AdoptionArtifact = data;
+			App.contracts.Owners = TruffleContract(AdoptionArtifact);
 
-	// 		// Set the provider for our contract
-	// 		App.contracts.Adoption.setProvider(App.web3Provider);
+			// Set the provider for our contract
+			App.contracts.Owners.setProvider(App.web3Provider);
 
-	// 		// Use our contract to retrieve and mark the adopted pets
-	// 		return App.markAdopted();
-	// 	});
+			// Use our contract to retrieve and mark the adopted pets
+			return App.markAdopted();
+		});
 
-	// 	return App.bindEvents();
-	// },
+		return App.bindEvents();
+	},
 
 	bindEvents: function() {
 		$(document).on('click', '.btn-view', App.handleView);
 		$(document).on('click', '.btn-buy', App.handleBuy);
 	},
 
+	markAdopted: function(adopters, account) {
+		var adoptionInstance;
+
+		App.contracts.Owners
+			.deployed()
+			.then(function(instance) {
+				adoptionInstance = instance;
+
+				return adoptionInstance.getAdopters.call();
+			})
+			.then(function(adopters) {
+				for (i = 0; i < adopters.length; i++) {
+					if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
+						$('.panel-pet').eq(i).find('button').text('Sold').attr('disabled', true);
+					}
+				}
+			})
+			.catch(function(err) {
+				console.log(err.message);
+			});
+	},
+
 	handleView: function(event) {
 		event.preventDefault();
-		alert('View Houses!');
-		// web3.eth.getAccounts(function(error, accounts) {
-		// 	if (error) {
-		// 		console.log(error);
-		// 	}
-
-		// 	var account = accounts[0];
-
-		// 	App.contracts.Adoption
-		// 		.deployed()
-		// 		.then(function(instance) {
-		// 			adoptionInstance = instance;
-
-		// 			// Execute adopt as a transaction by sending account
-		// 			return adoptionInstance.adopt(petId, { from: account });
-		// 		})
-		// 		.then(function(result) {
-		// 			return App.markAdopted();
-		// 		})
-		// 		.catch(function(err) {
-		// 			console.log(err.message);
-		// 		});
-		// });
+		$.getJSON('../data.json', function(data) {
+			var housesRow = $('#housesRow');
+			for (i = 0; i < data.length; i++) {
+				housesRow.find('.current-owner').text('Owner: ' + data[i]['title_dataset'][0].seller);
+				housesRow.find('.prospective-buyer').text('Buyer : ' + data[i]['title_dataset'][0].buyer);
+				housesRow.find('.date').text('Date: ' + data[i]['title_dataset'][0].date);
+				housesRow
+					.find('.transcation-type')
+					.text('Transaction Type: ' + data[i]['title_dataset'][0].transaction_type);
+				housesRow.find('.price').text('Price: $' + data[i]['title_dataset'][0].price);
+				housesRow.find('.house-info').show();
+			}
+		});
 	},
 
 	handleBuy: function(event) {
 		event.preventDefault();
-		alert('Buy Houses!');
-		// web3.eth.getAccounts(function(error, accounts) {
-		// 	if (error) {
-		// 		console.log(error);
-		// 	}
+		var petId = parseInt($(event.target).data('id'));
+		var adoptionInstance;
+		// var name = prompt('Enter your name');
+		// alert(name + ' you can buy this house!');
+		web3.eth.getAccounts(function(error, accounts) {
+			if (error) {
+				console.log(error);
+			}
 
-		// 	var account = accounts[0];
+			var account = accounts[0];
 
-		// 	App.contracts.Adoption
-		// 		.deployed()
-		// 		.then(function(instance) {
-		// 			adoptionInstance = instance;
+			App.contracts.Owners
+				.deployed()
+				.then(function(instance) {
+					adoptionInstance = instance;
 
-		// 			// Execute adopt as a transaction by sending account
-		// 			return adoptionInstance.adopt(petId, { from: account });
-		// 		})
-		// 		.then(function(result) {
-		// 			return App.markAdopted();
-		// 		})
-		// 		.catch(function(err) {
-		// 			console.log(err.message);
-		// 		});
-		// });
+					// Execute adopt as a transaction by sending account
+					return adoptionInstance.adopt(petId, { from: account });
+				})
+				.then(function(result) {
+					return App.markAdopted();
+				})
+				.catch(function(err) {
+					console.log(err.message);
+				});
+		});
 	}
 };
 
