@@ -101,25 +101,29 @@ App = {
 		var houseId = parseInt(cd);
 		$.getJSON('../data.json', function(data) {
 			var housesRow = $('#housesRow');
-			if (bought[houseId]) {
-				var owners = housesRow.find('.current-owner');
-				owners[houseId].innerText = 'Owner: ' + data[houseId]['title_dataset'][0].buyer;
-				var buyers = housesRow.find('.prospective-buyer');
-				buyers[houseId].innerText = 'Buyer : None';
+			if (housesRow.find('.house-info')[houseId].style.display == 'block') {
+				housesRow.find('.house-info')[houseId].style.display = 'none';
 			} else {
-				var owners = housesRow.find('.current-owner');
-				owners[houseId].innerText = 'Owner: ' + data[houseId]['title_dataset'][0].seller;
-				var buyers = housesRow.find('.prospective-buyer');
-				buyers[houseId].innerText = 'Buyer : ' + data[houseId]['title_dataset'][0].buyer;
+				if (bought[houseId]) {
+					var owners = housesRow.find('.current-owner');
+					owners[houseId].innerText = 'Owner: ' + data[houseId]['title_dataset'][0].buyer;
+					var buyers = housesRow.find('.prospective-buyer');
+					buyers[houseId].innerText = 'Buyer : None';
+				} else {
+					var owners = housesRow.find('.current-owner');
+					owners[houseId].innerText = 'Owner: ' + data[houseId]['title_dataset'][0].seller;
+					var buyers = housesRow.find('.prospective-buyer');
+					buyers[houseId].innerText = 'Buyer : ' + data[houseId]['title_dataset'][0].buyer;
+				}
+				var dates = housesRow.find('.date');
+				dates[houseId].innerText = 'Date: ' + data[houseId]['title_dataset'][0].date;
+				var typs = housesRow.find('.transcation-type');
+				typs[houseId].innerText = 'Transaction Type: ' + data[houseId]['title_dataset'][0].transaction_type;
+				var prices = housesRow.find('.price');
+				prices[houseId].innerText = 'Price: $' + data[houseId]['title_dataset'][0].price;
+				var houses = housesRow.find('.house-info')[houseId];
+				houses.style.display = 'block';
 			}
-			var dates = housesRow.find('.date');
-			dates[houseId].innerText = 'Date: ' + data[houseId]['title_dataset'][0].date;
-			var typs = housesRow.find('.transcation-type');
-			typs[houseId].innerText = 'Transaction Type: ' + data[houseId]['title_dataset'][0].transaction_type;
-			var prices = housesRow.find('.price');
-			prices[houseId].innerText = 'Price: $' + data[houseId]['title_dataset'][0].price;
-			var houses = housesRow.find('.house-info')[houseId];
-			houses.style.display = 'block';
 		});
 	},
 
